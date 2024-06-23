@@ -1,0 +1,13 @@
+===
+includes = [ "blog.html" ]
+pull     = { parser = "BlogPosts", data = "blog-posts.toml" }
+===
+
+<div>
+    <h1>My Blog Posts</h1>
+    <h3>Counter: { counter }</h3>
+    {{ for blog in posts }}
+        {{ call blog.html with blog }}
+    {{ endfor }}
+    <p>Thanks for Reading</p>
+</div>
