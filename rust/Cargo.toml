@@ -2,22 +2,27 @@
 name = "grola"
 version = "0.1.0"
 edition = "2021"
-build = "src/make_parsers.rs"
+build = "build.rs"
 
 [dependencies]
-serde = { version = "1.0.203", features = ["derive"] }
-serde_json = "1.0.117"
-tinytemplate = "1.2.1"
-toml = "0.8.14"
+serde = { version = "1.0.203", features = ["derive"], optional = true }
+tinytemplate = { version = "1.2.1", optional = true }
+toml = { version = "0.8.14", optional = true }
 
 [build-dependencies]
 toml = "0.8.14"
 serde = { version = "1.0.203", features = ["derive"] }
 
-#[[bin]]
-#name = "parser"
-#path = "src/parse.rs"
-#
-#[[bin]]
-#name = "router"
-#path = "src/route.rs"
+[features]
+make-parsers = []
+dynamic-server = ["dep:serde", "dep:tinytemplate", "dep:toml"]
+
+[[bin]]
+name = "make-parsers"
+path = "src/main.rs"
+required-features = ["make-parsers"]
+
+[[bin]]
+name = "dynamic-server"
+path = "src/main.rs"
+required-features = ["dynamic-server"]
