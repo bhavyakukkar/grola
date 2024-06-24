@@ -1,3 +1,11 @@
+# ROADMAP
+- [ ] split making parsers and making server into two binaries,
+      the first binary just copies the contents of OUT_DIR/templates.rs into a file in src/,
+      the second binary then include!'s src/templates.rs instead
+- [ ] allow static generation (every template parsed once and stored as html)
+- [ ] include TOML route attributes as well as request parameters in the template attributes
+
+# USAGE
 
 ```toml
 "/"     = { page = "index.html", version = "1.1" }
