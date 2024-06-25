@@ -5,8 +5,10 @@ edition = "2021"
 build = "build.rs"
 
 [dependencies]
+axum = { version = "0.7.5", optional = true }
 serde = { version = "1.0.203", features = ["derive"], optional = true }
 tinytemplate = { version = "1.2.1", optional = true }
+tokio = { version = "1.38.0", features = ["net", "rt-multi-thread"], optional = true }
 toml = { version = "0.8.14", optional = true }
 
 [build-dependencies]
@@ -15,14 +17,14 @@ serde = { version = "1.0.203", features = ["derive"] }
 
 [features]
 make-parsers = []
-dynamic-server = ["dep:serde", "dep:tinytemplate", "dep:toml"]
+dynamic-server = ["dep:serde", "dep:tinytemplate", "dep:toml", "dep:tokio", "dep:axum"]
 
 [[bin]]
 name = "make-parsers"
-path = "src/main.rs"
+path = "src/make_parsers.rs"
 required-features = ["make-parsers"]
 
 [[bin]]
 name = "dynamic-server"
-path = "src/main.rs"
+path = "src/dynamic_server.rs"
 required-features = ["dynamic-server"]
