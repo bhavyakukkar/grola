@@ -1,20 +1,18 @@
-
 #[cfg(not(feature = "make-parsers"))]
-fn main() { }
+fn main() {}
 
 #[cfg(feature = "make-parsers")]
 fn main() -> Result<(), make_parsers::ParserMakerError> {
+    use make_parsers::*;
     use std::{env, fs, path::Path};
     use toml::from_str;
-    use make_parsers::*;
 
     println!("\n> Making Parsers now");
     let templates_dir = env::var("TEMPLATES_DIR")?;
     let out_dir = env::var("OUT_DIR")?;
     let mut out_rs = String::new();
-    
-    out_rs +=
-        "
+
+    out_rs += "
 {
         ";
 
@@ -83,32 +81,30 @@ fn main() -> Result<(), make_parsers::ParserMakerError> {
             out_rs += &format!(
                 "
             //...
-            tt.render(r#\"{template}\"#, &())
+            tt.render(r#\"{template_name}\"#, &())
                 .map_err(|err| err.to_string())
         }}
     );
                 ",
-                template = content,
+                template_name = template_name.file_name().unwrap().to_str().unwrap(),
             );
         }
     }
 
-    out_rs +=
-        "
+    out_rs += "
 }
         ";
-    
+
     fs::write(Path::new(&out_dir).join(format!("handlers.rs")), out_rs)?;
     println!("cargo:rerun-if-changed={}", templates_dir);
     Ok(())
 }
 
-
 #[cfg(feature = "make-parsers")]
 mod make_parsers {
     use std::{env, fmt, io};
 
-    pub fn parse_template(template: String) -> (/*header: */String, /*content: */String) {
+    pub fn parse_template(template: String) -> (/*header: */ String, /*content: */ String) {
         let mut region = 0u8; //0 -> before first ===
                               //1 -> after first === & before second ===
                               //2 -> after second ===
@@ -119,7 +115,7 @@ mod make_parsers {
                 region += 1;
                 continue;
             }
-    
+
             if region == 0 || region == 2 {
                 content += line;
                 content += "\n";
@@ -130,43 +126,43 @@ mod make_parsers {
                 break;
             }
         }
-    
+
         (header, content)
     }
-    
+
     #[derive(serde::Deserialize)]
     pub struct PullOptions {
         pub data: String,
         pub parser: String,
     }
-    
+
     #[derive(serde::Deserialize)]
     pub struct TemplateHeader {
         pub pull: Option<PullOptions>,
         pub includes: Option<Vec<String>>,
     }
-    
+
     #[derive(Debug)]
     pub struct ParserMakerError(String);
-    
+
     impl fmt::Display for ParserMakerError {
         fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
             write!(f, "{}", self.0)
         }
     }
-    
+
     impl From<io::Error> for ParserMakerError {
         fn from(item: io::Error) -> ParserMakerError {
             ParserMakerError(item.to_string())
         }
     }
-    
+
     impl From<env::VarError> for ParserMakerError {
         fn from(item: env::VarError) -> ParserMakerError {
             ParserMakerError(item.to_string())
         }
     }
-    
+
     impl From<toml::de::Error> for ParserMakerError {
         fn from(item: toml::de::Error) -> ParserMakerError {
             ParserMakerError(item.to_string())

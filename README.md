@@ -20,14 +20,6 @@
 + Format of deserialization into Rust types followed by [the 'toml' crate](https://docs.rs/toml/)
 
 
-# USAGE
-
-```toml
-"/"     = { page = "index.html", version = "1.1" }
-"/blog" = { page = "blog.html" }
-```
-
-
 What grola does when a request is made
 1. looks up `routes.toml` to match `ROUTE` to template page `pages/page.html`
 2. furbishes `page.html` that requires `parser` with `data/

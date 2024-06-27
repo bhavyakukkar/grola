@@ -33,7 +33,7 @@ server:
 	cd rust && \
 	TEMPLATES_DIR=../$(TEMPLATES) DATA_DIR=../$(DATA) \
 		$(COMP) --bin dynamic-server -F make-parsers,dynamic-server --release && \
-		$(OUT_DIR)/dynamic-server
+		$(OUT_DIR)/dynamic-server ../config.toml
 
 serve:
 	# Making the server using the last-built parsers
@@ -42,4 +42,4 @@ serve:
 	cd rust && \
 	DATA_DIR=../$(DATA) \
 		$(COMP) --bin dynamic-server -F dynamic-server --release && \
-		$(OUT_DIR)/dynamic-server
+		$(OUT_DIR)/dynamic-server ../config.toml

@@ -5,7 +5,7 @@ edition = "2021"
 build = "build.rs"
 
 [dependencies]
-axum = { version = "0.7.5", optional = true }
+axum = { version = "0.7.5", optional = true, features = ["query"] }
 serde = { version = "1.0.203", features = ["derive"], optional = true }
 tinytemplate = { version = "1.2.1", optional = true }
 tokio = { version = "1.38.0", features = ["net", "rt-multi-thread"], optional = true }
