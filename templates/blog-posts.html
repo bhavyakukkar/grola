@@ -5,8 +5,10 @@ pull     = { parser = "BlogPosts", data = "blog-posts.toml" }
 
 <div>
     <h1>My Blog Posts</h1>
-    <h3>Counter: { counter }</h3>
-    {{ for blog in posts }}
+    <h3>Counter: { _.counter }</h3>
+    <h3>Counter Query: { q.counter }</h3>
+    <h3>Counter Attribute: { a.counter }</h3>
+    {{ for blog in _.posts }}
         {{ call blog.html with blog }}
     {{ endfor }}
     <p>Thanks for Reading</p>

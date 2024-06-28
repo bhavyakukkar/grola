@@ -22,12 +22,13 @@ fn main() -> Result<(), make_parsers::ParserMakerError> {
         let (header_toml, content) = parse_template(template);
         let header: TemplateHeader = from_str(&header_toml)?;
 
-        //todo: add attributes
         out_rs += &format!(
             "
     handlers.insert(
         \"{template_name}\", 
-        || -> Result<String, String> {{
+        |attributes: Attributes, query: HashMap<String, String>|
+        -> Result<String, String>
+        {{
             use tinytemplate::TinyTemplate;
     
             #[allow(unused_mut)]
@@ -68,7 +69,13 @@ fn main() -> Result<(), make_parsers::ParserMakerError> {
                     .map_err(|err| err.to_string())?)
                         .map_err(|err| err.to_string())?;
 
-            tt.render(r#\"{template_name}\"#, &data)
+            let context: Context<parsers::{parser}> = Context {{
+                query,
+                attributes,
+                data: Some(data),
+            }};
+
+            tt.render(r#\"{template_name}\"#, &context)
                 .map_err(|err| err.to_string())
         }}
     );
@@ -81,7 +88,13 @@ fn main() -> Result<(), make_parsers::ParserMakerError> {
             out_rs += &format!(
                 "
             //...
-            tt.render(r#\"{template_name}\"#, &())
+            let context: Context<()> = Context {{
+                query,
+                attributes,
+                data: None,
+            }};
+
+            tt.render(r#\"{template_name}\"#, &context)
                 .map_err(|err| err.to_string())
         }}
     );

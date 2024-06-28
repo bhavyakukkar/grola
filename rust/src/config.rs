@@ -2,10 +2,10 @@ use serde::Deserialize;
 use std::{collections::HashMap, fs, io, path::PathBuf};
 use toml::{de, from_str, map::Map, Table, Value};
 
-type Page = String;
-type Attributes = Table;
-type Route = String;
-type Routes = HashMap<Route, (Page, Attributes)>;
+pub type Page = String;
+pub type Attributes = Table;
+pub type Route = String;
+pub type Routes = HashMap<Route, (Page, Attributes)>;
 
 #[allow(dead_code)]
 #[derive(Debug)]

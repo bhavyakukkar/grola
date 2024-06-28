@@ -1,4 +1,7 @@
 [routes]
 # route = options
 "/"     = { page = "index.html", version = "1.1" }
-"/blog" = "blog-posts.html"
+"/blog" = { page = "blog-posts.html", counter = 2 }
+
+#[debug]
+#errors_rendered = false
