@@ -1,7 +1,7 @@
 #[cfg(feature = "dynamic-server")]
-mod routes;
+mod config;
 #[cfg(feature = "dynamic-server")]
-pub use routes::*;
+pub use config::*;
 
 #[cfg(feature = "dynamic-server")]
 pub mod parsers;
