@@ -1,13 +1,13 @@
 fn main() {
-    #[cfg(feature = "dynamic-server")]
+    #[cfg(any(feature = "dynamic-server", feature = "static-render"))]
     {
         eprintln!(
-            "This binary target does not accept the `dynamic-server` feature. Use the \
-            `dynamic-server` binary target instead"
+            "This binary target does not accept the `dynamic-server` or `static-render` features. \
+            Use the `dynamic-server` or `static-render` binary targets instead."
         );
         exit(1);
     }
 
-    #[cfg(not(feature = "dynamic-server"))]
+    #[cfg(all(not(feature = "dynamic-server"), not(feature = "static-render")))]
     grola::make_parsers();
 }

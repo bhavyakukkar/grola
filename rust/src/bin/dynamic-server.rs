@@ -1,38 +1,29 @@
 use axum::{extract::Query, response::Response, routing::get, Router};
-use serde::{Serialize, Deserialize};
-use grola::{get_config, parsers, Config, Attributes};
+use grola::{get_config, Config, Handlers};
 use std::{collections::HashMap, env, path::PathBuf, sync::Arc};
 use tokio::net::TcpListener;
 
 
-type Handlers = HashMap<
-    &'static str,
-    fn(Attributes, HashMap<String, String>) -> Result<String, String>
->;
-
-
-#[derive(Serialize, Deserialize)]
-struct Context<T>
-{
-    #[serde(rename = "q")]
-    query: HashMap<String, String>,
-    #[serde(rename = "a")]
-    attributes: Attributes,
-    #[serde(rename = "_")]
-    data: Option<T>,
-}
-
 fn main() {
     let mut handlers = std::collections::HashMap::new();
 
+    #[cfg(feature = "static-render")]
+    {
+        eprintln!(
+            "This binary target does not accept the `static-render` feature. \
+            Use the `static-render` binary target instead."
+        );
+        exit(1);
+    }
+
     #[cfg(feature = "make-parsers")]
     {
-        add_handlers_from_out_dir(&mut handlers);
+        grola::add_handlers_from_out_dir(&mut handlers);
         grola::make_parsers();
     }
     #[cfg(not(feature = "make-parsers"))]
     {
-        add_handlers_from_src_dir(&mut handlers);
+        grola::add_handlers_from_src_dir(&mut handlers);
     }
 
     let config_file = env::args().nth(1).unwrap();
@@ -47,7 +38,7 @@ async fn dynamic_server(mut handlers: Handlers, config: Config) {
     for (route, options) in config.routes.into_iter() {
         let handler_maybe = Arc::new(
             handlers
-                .remove(&options.0 as &str)
+                .remove(/*template*/&options.0 as &str)
                 .unwrap_or(|_, _| Err("404".to_owned())),
         );
         server = server.route(
@@ -61,20 +52,9 @@ async fn dynamic_server(mut handlers: Handlers, config: Config) {
         );
     }
 
+    //https://docs.rs/axum/latest/axum/struct.Router.html#a-note-about-performance
+    server = server.with_state(());
+
     let listener = TcpListener::bind("0.0.0.0:3000").await.unwrap();
     axum::serve(listener, server).await.unwrap();
-}
-
-#[cfg(not(feature = "make-parsers"))]
-fn add_handlers_from_src_dir(handlers: &mut Handlers) {
-    //...
-    include!("../handlers.rs");
-    //...
-}
-
-#[cfg(feature = "make-parsers")]
-fn add_handlers_from_out_dir(handlers: &mut Handlers) {
-    //...
-    include!(concat!(env!("OUT_DIR"), "/handlers.rs"));
-    //...
 }

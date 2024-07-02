@@ -1,0 +1,7 @@
+[routes]
+# route = options (must be template name, or table containing template name as "page")
+"/"     = "index.html"
+"/blog" = { page = "blog-posts.html", status = "online" }
+
+#[debug]
+#errors_rendered = false
