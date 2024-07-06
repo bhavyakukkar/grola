@@ -1,3 +1,6 @@
+[server]
+static = { route = "/public", dir = "./www/public" }
+
 [routes]
 # route = options (must be template name, or table containing template name as "page")
 "/"     = "index.html"

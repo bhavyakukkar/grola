@@ -110,6 +110,8 @@ fn main() -> Result<(), make_parsers::ParserMakerError> {
 
     fs::write(Path::new(&out_dir).join(format!("handlers.rs")), out_rs)?;
     println!("cargo:rerun-if-changed={}", templates_dir);
+    println!("cargo:rerun-if-env-changed=TEMPLATES_DIR");
+    println!("cargo:rerun-if-env-changed=DATA_DIR");
     Ok(())
 }
 

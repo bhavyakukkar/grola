@@ -36,9 +36,9 @@ server+:
 	# to the routes in $(CONFIG_SERVER) that map to the respective template
 	#
 	cd rust && \
-	TEMPLATES_DIR=../$(TEMPLATES) DATA_DIR=../$(DATA) \
+	TEMPLATES_DIR=../$(TEMPLATES) DATA_DIR=./$(DATA) \
 		$(COMP) --bin dynamic-server -F make-parsers,dynamic-server --release && \
-		$(OUT_DIR)/dynamic-server ../config-server.toml
+		cd .. && ./rust/$(OUT_DIR)/dynamic-server ./config-server.toml
 
 server:
 	#
@@ -49,7 +49,7 @@ server:
 	#
 	cd rust && \
 		$(COMP) --bin dynamic-server -F dynamic-server --release && \
-		$(OUT_DIR)/dynamic-server ../config-server.toml
+		cd .. && ./rust/$(OUT_DIR)/dynamic-server ./config-server.toml
 
 pages+:
 	#
