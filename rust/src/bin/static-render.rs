@@ -33,6 +33,7 @@ fn main() -> Result<(), String> {
             .map_err(|err| format!("Error while rendering template: {}", err))?;
 
         let render_dir = PathBuf::from(env::var("RENDER_DIR").unwrap_or(".".to_owned()));
+        println!("Generating {}", render_dir.join(page.clone()).display());
         fs::write(render_dir.join(page), html)
             .map_err(|err| format!("Error while writing to page: {}", err))?;
     }

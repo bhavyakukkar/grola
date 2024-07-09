@@ -10,5 +10,4 @@ pub struct Blog {
 #[derive(Serialize, Deserialize)]
 pub struct BlogPosts {
     posts: Vec<Blog>,
-    counter: u8,
 }

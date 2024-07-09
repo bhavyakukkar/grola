@@ -49,7 +49,7 @@ make pages
 + [x] include TOML route attributes as well as request parameters in the template attributes
 + [ ] rename parsers to handlers
 + [x] allow static generation (every template parsed once and stored as html)
-+ [ ] 'public' folder for media, css and js
++ [x] 'public' folder for media, css and js
 + [ ] toml strings are parsed as markdown to allow rich-text
 + [ ] make data-pull relative so that server binary can find data-files based on passed argument
       flag. after done, make bin/ in root where executables get moved from rust/target/release

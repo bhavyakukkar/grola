@@ -4,7 +4,12 @@ static = { route = "/public", dir = "./www/public" }
 [routes]
 # route = options (must be template name, or table containing template name as "page")
 "/"     = "index.html"
-"/blog" = { page = "blog-posts.html", status = "online" }
+
+[routes."/blog"]
+page = "blog-posts.html"
+title = "My Blog"
+stylesheet = "/public/style.css"
+status = "dynamic"
 
 #[debug]
 #errors_rendered = false

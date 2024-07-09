@@ -1,17 +1,16 @@
-counter = 3
-
 [[posts]]
 id = 1
 title = "My first post"
 content = """
-This is the content of my first post.
+This is my first post.
+It's good to have my own blog.
 """
 
 [[posts]]
 id = 2
 title = "My second post"
 content = """
-This is the content of my second post.
+This is my second post.
 Remember my first post?
 That was so long ago.
 """
@@ -19,4 +18,8 @@ That was so long ago.
 [[posts]]
 id = 3
 title = "My third post"
-content = "This is my third post"
+content = """
+This is my third post.
+Things have been going well.
+My blog has been getting many hits.
+"""

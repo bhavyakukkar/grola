@@ -28,7 +28,8 @@ fn main() {
     }
 
     let config_file = env::args().nth(1).unwrap();
-    let config = get_config(&PathBuf::from(config_file)).unwrap();
+    let config = get_config(&PathBuf::from(config_file))
+        .map_err(|err| eprintln!("Config Error:\n{}", err)).unwrap();
     let _ = dynamic_server(handlers, config);
 }
 
@@ -62,5 +63,6 @@ async fn dynamic_server(mut handlers: Handlers, config: Config) {
     server = server.with_state(());
 
     let listener = TcpListener::bind("0.0.0.0:3000").await.unwrap();
+    println!("Dynamic server running at http://0.0.0.0:3000/");
     axum::serve(listener, server).await.unwrap();
 }

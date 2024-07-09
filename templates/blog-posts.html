@@ -1,12 +1,15 @@
 ===
-includes = [ "blog.html" ]
+includes = [ "blog.html", "site-head.html", "site-foot.html" ]
 pull     = { parser = "BlogPosts", data = "blog-posts.toml" }
 ===
 
-<div>
-    <span>Status: { a.status }</span>
-    <h1>Blog Posts</h1>
+
+{{ call site-head.html with a }}
+
+<div id="blog-posts-container">
     {{ for blog in _.posts }}
         {{ call blog.html with blog }}
     {{ endfor }}
-</div>
+<div>
+
+{{ call site-foot.html with a }}

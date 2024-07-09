@@ -1,3 +1,5 @@
-[routes]
-# page       = options (must be template name, or table containing template name as "page")
-"blog.html"  = { page = "blog-posts.html", status = "offline" }
+[routes."blog.html"]
+page = "blog-posts.html"
+title = "My Blog"
+stylesheet = "public/style.css"
+status = "static"
