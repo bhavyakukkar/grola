@@ -22,7 +22,6 @@ Parsers for popular generic usages are shown in [examples](./examples/parsers.rs
 The parsers & templates together compile into the handlers, meaning if either change, the handlers
 must be compiled.
 
-
 ```sh
 # compile the handlers into /rust/src/handlers.rs
 make parsers
