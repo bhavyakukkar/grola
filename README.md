@@ -12,6 +12,8 @@ There are three main constructs in Grola:
 3. Parser, the data-definition deserializing your data & serializing it into the template,
    currently written in **🦀 Rust 🦀**
 
+![workflow-diagram](./diagram.png)
+
 The source-code of your website (parsers) is also the source-code of Grola, as the parsers are written in Rust, allowing for great **flexibility** in how your data gets filled into your templates.
 
 Meaning, if you want to make your website with Grola, you need to start by **cloning this project**
